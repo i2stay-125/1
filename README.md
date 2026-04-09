@@ -3,8 +3,7 @@ import { useState } from "react";
 export default function QuickApplySection() {
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",   import QuickApplySection from './components/QuickApplySection';
-   
+    phone: "",
     company: "",
     requirement: ""
   });
@@ -25,7 +24,7 @@ export default function QuickApplySection() {
     }
 
     setIsSubmitting(true);
-    setSubmitStatus("idle");   <QuickApplySection />
+    setSubmitStatus("idle");
 
     try {
       const TO_EMAIL = "business@kungfubuy.com";
@@ -96,7 +95,7 @@ export default function QuickApplySection() {
               {isSubmitting ? "提交中..." : "立即申请"}
             </button>
             {submitStatus === "success" && <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">申请成功！我们将在24小时内与您联系。</div>}
-            {submitStatus === "error" && <div className="bg-red-50 border red-200 text-red-700 px-4 py-3 rounded-lg">提交失败，请稍后重试或直接联系我们。</div>}
+            {submitStatus === "error" && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">提交失败，请稍后重试或直接联系我们。</div>}
           </form>
         </div>
       </div>
