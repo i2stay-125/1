@@ -3,7 +3,8 @@ import { useState } from "react";
 export default function QuickApplySection() {
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
+    phone: "",   import QuickApplySection from './components/QuickApplySection';
+   
     company: "",
     requirement: ""
   });
@@ -24,7 +25,7 @@ export default function QuickApplySection() {
     }
 
     setIsSubmitting(true);
-    setSubmitStatus("idle");
+    setSubmitStatus("idle");   <QuickApplySection />
 
     try {
       const TO_EMAIL = "business@kungfubuy.com";
