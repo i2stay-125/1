@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.hero-kenburns-bg {
+  background-size: cover;
+  background-position: center;
+  animation: heroKenBurns 18s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes heroKenBurns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.08) translate(-2%, -2%);
+  }
+}
