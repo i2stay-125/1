@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KungfuBuy - Smart Supply Chain</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+    * { font-family: 'Inter', sans-serif; }
+    
+    .animate-fade-in { animation: fadeIn 1s ease-out; }
+    .animate-slide-up { animation: slideUp 0.8s ease-out; }
+    .animate-scale-in { animation: scaleIn 0.5s ease-out 0.3s forwards; opacity: 0; }
+    
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+    
+    .split-section { transition: all 0.6s ease; position: relative; overflow: hidden; }
+    .split-section:hover { flex: 1.15; }
+    .split-section:not(:hover) { flex: 0.85; }
+    
+    .particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
+      animation: float 15s infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+    
+    .glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(120px);
+      animation: pulse 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.4; }
+      50% { transform: scale(1.2); opacity: 0.6; }
+    }
+    
+    .feature-card {
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.5s ease-out; }
+    
+    .video-bg {
+      position: absolute;
+      inset: 0;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      opacity: 0.6;
+    }
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(13,148,136,0.7) 0%, rgba(15,118,110,0.75) 100%);
+    }
+    .video-overlay-c {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(5,150,105,0.7) 0%, rgba(4,120,87,0.75) 100%);
+    }
+
+    /* Hero 功能卡片样式 */
+    .hero-feature-card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hero-feature-card:hover {
+      background: rgba(255, 255, 255, 0.35);
+      transform: translateX(12px);
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+    .hero-feature-icon {
+      background: rgba(255, 255, 255, 0.25);
+      transition: all 0.3s ease;
+    }
+    /* 功能卡片统一外框 */
+    .features-frame {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      border-radius: 24px;
+      padding: 24px;
+    }
+    .hero-feature-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: none;
+    }
+    .hero-feature-card:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateX(12px);
+    }
+    .hero-feature-card:hover .hero-feature-icon {
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(1.1);
+    }
+    
+    /* Steps Section */
+    .step-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .step-card:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    .step-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    .step-icon i {
+      font-size: 32px;
+      color: white;
+    }
+    
+    /* 动态渐变背景动画 */
+    .gradient-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #059669, #10b981, #0d9488, #14b8a6);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* 网格图案 */
+    .grid-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.15;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+
+    /* 扫描线动画 */
+    .scan-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: scan 3s linear infinite;
+    }
+    @keyframes scan {
+      0% { top: 0; opacity: 0; }
+      50% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center gap-2">
+          <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold text-lg">K</span>
+          </div>
+          <span class="text-xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">KungfuBuy</span>
+        </div>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#home" class="text-gray-600 hover:text-teal-600 transition-colors text-sm font-medium">Home</a>
+          <a href="#b-portal" class="text-gray-600 hover:text-teal-600 transition-colors text-sm font-medium">Enterprise</a>
+          <a href="#c-portal" class="text-gray-600 hover:text-teal-600 transition-colors text-sm font-medium">Individual</a>
+          <a href="#contact" class="text-gray-600 hover:text-teal-600 transition-colors text-sm font-medium">Contact</a>
+        </div>
+        <a href="portal-b/index.html" class="px-5 py-2 bg-teal-600 text-white rounded-lg font-semibold text-sm hover:bg-teal-700 transition-colors">
+          Login
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section - Split Screen with Dynamic Background -->
+  <section id="home" class="min-h-screen flex pt-16">
+    <!-- Enterprise Side -->
+    <div class="split-section flex-1 relative cursor-pointer" onclick="window.location.href='apply.html?type=b2b'">
+      <!-- Video Background -->
+      <video class="video-bg" autoplay muted loop playsinline>
+        <source src="images/banner.mp4" type="video/mp4">
+      </video>
+      <div class="video-overlay"></div>
+      
+      <!-- Particles -->
+      <div class="particles" id="particles-b"></div>
+      
+      <!-- Glow Effects -->
+      <div class="glow bg-teal-400/40 top-1/4 -left-32"></div>
+      <div class="glow bg-emerald-400/40 bottom-1/4 -right-32" style="animation-delay: -4s;"></div>
+      
+      <!-- Grid Pattern -->
+      <div class="grid-pattern"></div>
+      
+      <!-- Scan Line -->
+      <div class="scan-line"></div>
+      
+      <!-- Content -->
+      <div class="relative z-10 h-full flex flex-col justify-center items-center text-white p-8">
+        <div class="text-center w-full max-w-lg">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/25 backdrop-blur-md rounded-full text-sm mb-6 animate-fade-in border border-white/20">
+            <i class="ri-briefcase-line"></i>
+            <span>Enterprise B2B Service Platform</span>
+          </div>
+          
+          <div class="w-28 h-28 bg-white/25 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-6 animate-scale-in border border-white/30">
+            <i class="ri-building-2-line text-5xl text-white"></i>
+          </div>
+          
+          <h2 class="text-5xl md:text-6xl font-bold mb-2 animate-slide-up">Enterprise</h2>
+          <p class="text-xl text-white/90 mb-10 animate-slide-up" style="animation-delay: 0.1s">B2B Procurement · Bulk Customization · Professional Service</p>
+          
+          <!-- Enterprise Feature Cards -->
+          <div class="features-frame space-y-4 animate-slide-up" style="animation-delay: 0.2s">
+            <a href="portal-b/products/index.html" class="hero-feature-card flex items-center gap-5 p-5 rounded-2xl text-left group">
+              <div class="flex items-center gap-3 flex-shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                  <span class="text-white font-bold text-lg">1</span>
+                </div>
+                <i class="ri-box-3-line text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-lg text-white mb-1">Product Center</h3>
+                <p class="text-sm text-white/80">Massive Selection · Bulk Orders</p>
+              </div>
+              <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+            </a>
+            
+            <a href="portal-b/warehouse/index.html" class="hero-feature-card flex items-center gap-5 p-5 rounded-2xl text-left group">
+              <div class="flex items-center gap-3 flex-shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                  <span class="text-white font-bold text-lg">2</span>
+                </div>
+                <i class="ri-store-2-line text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-lg text-white mb-1">Warehouse</h3>
+                <p class="text-sm text-white/80">Smart Storage · Inventory Alerts</p>
+              </div>
+              <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+            </a>
+            
+            <a href="portal-b/logistics/index.html" class="hero-feature-card flex items-center gap-5 p-5 rounded-2xl text-left group">
+              <div class="flex items-center gap-3 flex-shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                  <span class="text-white font-bold text-lg">3</span>
+                </div>
+                <i class="ri-truck-line text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-lg text-white mb-1">Logistics</h3>
+                <p class="text-sm text-white/80">Multi-Carrier · Full Tracking</p>
+              </div>
+              <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+            </a>
+            
+            <a href="portal-b/customize/index.html" class="hero-feature-card flex items-center gap-5 p-5 rounded-2xl text-left group">
+              <div class="flex items-center gap-3 flex-shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                  <span class="text-white font-bold text-lg">4</span>
+                </div>
+                <i class="ri-palette-line text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-lg text-white mb-1">Customization</h3>
+                <p class="text-sm text-white/80">Flexible Solutions · Exclusive Plans</p>
+              </div>
+              <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+            </a>
+            
+            <a href="apply.html?type=b2b" class="hero-feature-card flex items-center gap-5 p-5 rounded-2xl text-left group">
+              <div class="flex items-center gap-3 flex-shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                  <span class="text-white font-bold text-lg">5</span>
+                </div>
+                <i class="ri-file-check-line text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-lg text-white mb-1">Apply Now</h3>
+                <p class="text-sm text-white/80">Quick Onboarding · Dedicated Support</p>
+              </div>
+              <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <i class="ri-arrow-down-line text-2xl opacity-60"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Individual Side -->
+    <div class="split-section flex-1 relative cursor-pointer" onclick="window.location.href='apply.html?type=b2c'">
+      <!-- Video Background -->
+      <video class="video-bg" autoplay muted loop playsinline>
+        <source src="images/banner2.mp4" type="video/mp4">
+      </video>
+      <div class="video-overlay-c"></div>
+      
+      <!-- Particles -->
+      <div class="particles" id="particles-c"></div>
+      
+      <!-- Glow Effects -->
+      <div class="glow bg-emerald-400/40 top-1/3 -right-32"></div>
+      <div class="glow bg-teal-400/40 bottom-1/3 -left-32" style="animation-delay: -4s;"></div>
+      
+      <!-- Grid Pattern -->
+      <div class="grid-pattern"></div>
+      
+      <!-- Scan Line -->
+      <div class="scan-line" style="animation-delay: -1.5s;"></div>
+      
+      <!-- Content -->
+      <div class="relative z-10 h-full flex flex-col justify-center items-center text-white p-8">
+        <div class="text-center w-full max-w-lg">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/25 backdrop-blur-md rounded-full text-sm mb-6 animate-fade-in border border-white/20" style="animation-delay: 0.2s">
+            <i class="ri-user-line"></i>
+            <span>Individual Customer Service</span>
+          </div>
+          
+          <div class="w-28 h-28 bg-white/25 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-6 animate-scale-in border border-white/30">
+            <i class="ri-user-smile-line text-5xl text-white"></i>
+          </div>
+          
+          <h2 class="text-5xl md:text-6xl font-bold mb-2 animate-slide-up" style="animation-delay: 0.1s">Individual</h2>
+          <p class="text-xl text-white/90 mb-10 animate-slide-up" style="animation-delay: 0.2s">Premium Selection · Easy Ordering · Quality Service</p>
+          
+          <!-- Individual Feature Cards -->
+          <div class="features-frame space-y-4 animate-slide-up" style="animation-delay: 0.3s">
+            <a href="portal-c/mall/index.html" class="hero-feature-card flex items-center gap-5 p-5 rounded-2xl text-left group">
+              <div class="flex items-center gap-3 flex-shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                  <span class="text-white font-bold text-lg">1</span>
+                </div>
+                <i class="ri-shopping-bag-line text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-lg text-white mb-1">Product Mall</h3>
+                <p class="text-sm text-white/80">Premium Selection · Quality Guaranteed</p>
+              </div>
+              <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+            </a>
+            
+            <a href="portal-c/cart/index.html" class="hero-feature-card flex items-center gap-5 p-5 rounded-2xl text-left group">
+              <div class="flex items-center gap-3 flex-shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                  <span class="text-white font-bold text-lg">2</span>
+                </div>
+                <i class="ri-shopping-cart-line text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-lg text-white mb-1">Shopping Cart</h3>
+                <p class="text-sm text-white/80">Easy Checkout · Great Deals</p>
+              </div>
+              <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+            </a>
+            
+            <a href="portal-c/track/index.html" class="hero-feature-card flex items-center gap-5 p-5 rounded-2xl text-left group">
+              <div class="flex items-center gap-3 flex-shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                  <span class="text-white font-bold text-lg">3</span>
+                </div>
+                <i class="ri-map-pin-line text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-lg text-white mb-1">Order Tracking</h3>
+                <p class="text-sm text-white/80">Real-time Location · Worry-free Delivery</p>
+              </div>
+              <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+            </a>
+            
+            <a href="portal-c/service/index.html" class="hero-feature-card flex items-center gap-5 p-5 rounded-2xl text-left group">
+              <div class="flex items-center gap-3 flex-shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                  <span class="text-white font-bold text-lg">4</span>
+                </div>
+                <i class="ri-customer-service-line text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-lg text-white mb-1">Customer Service</h3>
+                <p class="text-sm text-white/80">Attentive Support · Easy Returns</p>
+              </div>
+              <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+            </a>
+            
+            <a href="portal-c/profile/index.html" class="hero-feature-card flex items-center gap-5 p-5 rounded-2xl text-left group">
+              <div class="flex items-center gap-3 flex-shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                  <span class="text-white font-bold text-lg">5</span>
+                </div>
+                <i class="ri-user-line text-xl"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="font-bold text-lg text-white mb-1">My Profile</h3>
+                <p class="text-sm text-white/80">Order Management · Member Benefits</p>
+              </div>
+              <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce" style="animation-delay: 0.2s">
+          <i class="ri-arrow-down-line text-2xl opacity-60"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works - Steps Section -->
+  <section class="py-20 bg-gradient-to-br from-teal-600 via-emerald-600 to-teal-700 relative overflow-hidden">
+    <!-- Background Effects -->
+    <div class="absolute inset-0">
+      <div class="glow bg-teal-400/30 w-96 h-96 -top-48 -left-48" style="animation-delay: -2s;"></div>
+      <div class="glow bg-emerald-400/30 w-80 h-80 top-1/2 -right-40" style="animation-delay: -4s;"></div>
+      <div class="glow bg-white/10 w-64 h-64 bottom-0 left-1/3" style="animation-delay: -6s;"></div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <!-- Section Header -->
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/20 backdrop-blur-md rounded-full text-sm font-medium mb-6">
+          <i class="ri-rocket-2-line"></i>
+          <span>How It Works</span>
+        </div>
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Get Started in 4 Simple Steps</h2>
+        <p class="text-xl text-white/80 max-w-2xl mx-auto">Start your dropshipping business with KungfuBuy in minutes</p>
+      </div>
+      
+      <!-- Steps Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- Step 1 -->
+        <div class="step-card">
+          <div class="flex justify-center mb-4">
+            <div class="relative">
+              <div class="step-icon">
+                <i class="ri-user-add-line"></i>
+              </div>
+              <div class="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg">
+                <span class="text-teal-600 font-bold text-sm">01</span>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Account Setup</h3>
+          <p class="text-sm text-white/70">Register and verify your account</p>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="step-card">
+          <div class="flex justify-center mb-4">
+            <div class="relative">
+              <div class="step-icon">
+                <i class="ri-store-2-line"></i>
+              </div>
+              <div class="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg">
+                <span class="text-teal-600 font-bold text-sm">02</span>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Product Selection</h3>
+          <p class="text-sm text-white/70">Choose products to sell</p>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="step-card">
+          <div class="flex justify-center mb-4">
+            <div class="relative">
+              <div class="step-icon">
+                <i class="ri-shopping-bag-3-line"></i>
+              </div>
+              <div class="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg">
+                <span class="text-teal-600 font-bold text-sm">03</span>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Order Fulfillment</h3>
+          <p class="text-sm text-white/70">Sync and fulfill orders</p>
+        </div>
+        
+        <!-- Step 4 -->
+        <div class="step-card">
+          <div class="flex justify-center mb-4">
+            <div class="relative">
+              <div class="step-icon">
+                <i class="ri-customer-service-2-line"></i>
+              </div>
+              <div class="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg">
+                <span class="text-teal-600 font-bold text-sm">04</span>
+              </div>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">After-sales Support</h3>
+          <p class="text-sm text-white/70">Handle returns and queries</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Enterprise Portal Section -->
+  <section id="b-portal" class="section-content py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="text-center mb-16">
+        <span class="inline-flex items-center gap-2 px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-medium mb-4">
+          <i class="ri-briefcase-line"></i>
+          Enterprise Procurement
+        </span>
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Exclusive Services for Enterprise</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">Professional product sourcing, warehousing, logistics, and customized solutions for your business</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        <div class="text-center p-6 bg-gradient-to-br from-teal-50 to-teal-100 rounded-2xl">
+          <div class="text-4xl font-bold text-teal-600 mb-2">3000+</div>
+          <div class="text-gray-600">Partner Clients</div>
+        </div>
+        <div class="text-center p-6 bg-gradient-to-br from-teal-50 to-teal-100 rounded-2xl">
+          <div class="text-4xl font-bold text-teal-600 mb-2">8000㎡</div>
+          <div class="text-gray-600">Fulfillment Center</div>
+        </div>
+        <div class="text-center p-6 bg-gradient-to-br from-teal-50 to-teal-100 rounded-2xl">
+          <div class="text-4xl font-bold text-teal-600 mb-2">75000+</div>
+          <div class="text-gray-600">Daily Shipments</div>
+        </div>
+        <div class="text-center p-6 bg-gradient-to-br from-teal-50 to-teal-100 rounded-2xl">
+          <div class="text-4xl font-bold text-teal-600 mb-2">24h</div>
+          <div class="text-gray-600">Fast Delivery</div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-16">
+        <a href="portal-b/products/index.html" class="feature-card bg-white rounded-2xl p-6 border border-gray-100 group">
+          <div class="w-14 h-14 bg-teal-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i class="ri-package-line text-2xl text-white"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Products</h3>
+          <p class="text-gray-600 text-sm">Massive Selection · Bulk Orders</p>
+        </a>
+        <a href="portal-b/warehouse/index.html" class="feature-card bg-white rounded-2xl p-6 border border-gray-100 group">
+          <div class="w-14 h-14 bg-blue-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i class="ri-store-2-line text-2xl text-white"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Warehouse</h3>
+          <p class="text-gray-600 text-sm">Smart Storage · Inventory Alerts</p>
+        </a>
+        <a href="portal-b/logistics/index.html" class="feature-card bg-white rounded-2xl p-6 border border-gray-100 group">
+          <div class="w-14 h-14 bg-purple-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i class="ri-truck-line text-2xl text-white"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Logistics</h3>
+          <p class="text-gray-600 text-sm">Multi-Carrier · Full Tracking</p>
+        </a>
+        <a href="portal-b/customize/index.html" class="feature-card bg-white rounded-2xl p-6 border border-gray-100 group">
+          <div class="w-14 h-14 bg-orange-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i class="ri-palette-line text-2xl text-white"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Customization</h3>
+          <p class="text-gray-600 text-sm">Flexible Solutions · Exclusive Plans</p>
+        </a>
+        <a href="apply.html?type=b2b" class="feature-card bg-white rounded-2xl p-6 border border-gray-100 group">
+          <div class="w-14 h-14 bg-teal-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i class="ri-file-check-line text-2xl text-white"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Apply</h3>
+          <p class="text-gray-600 text-sm">Quick Onboarding · Dedicated Support</p>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Contact Us</h2>
+        <p class="text-xl text-gray-600">Have questions? Get in touch with us anytime</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div class="text-center p-6">
+          <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="ri-phone-line text-2xl text-teal-600"></i>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2">Phone</h3>
+          <p class="text-gray-600">400-888-8888</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="ri-mail-line text-2xl text-teal-600"></i>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2">Email</h3>
+          <p class="text-gray-600">support@kungfubuy.com</p>
+        </div>
+        <div class="text-center p-6">
+          <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="ri-map-pin-line text-2xl text-teal-600"></i>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2">Address</h3>
+          <p class="text-gray-600">Nanshan Tech Park, Shenzhen</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Individual Portal Section -->
+  <section id="c-portal" class="section-content py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="text-center mb-16">
+        <span class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium mb-4">
+          <i class="ri-shopping-bag-line"></i>
+          Quality Shopping
+        </span>
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Quality Life Starts Here</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">Curated premium products for an enjoyable shopping experience</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        <div class="text-center p-6 bg-white rounded-2xl shadow-sm">
+          <div class="text-4xl font-bold text-emerald-600 mb-2">1M+</div>
+          <div class="text-gray-600">Curated Products</div>
+        </div>
+        <div class="text-center p-6 bg-white rounded-2xl shadow-sm">
+          <div class="text-4xl font-bold text-emerald-600 mb-2">500K+</div>
+          <div class="text-gray-600">Happy Customers</div>
+        </div>
+        <div class="text-center p-6 bg-white rounded-2xl shadow-sm">
+          <div class="text-4xl font-bold text-emerald-600 mb-2">99%</div>
+          <div class="text-gray-600">Satisfaction Rate</div>
+        </div>
+        <div class="text-center p-6 bg-white rounded-2xl shadow-sm">
+          <div class="text-4xl font-bold text-emerald-600 mb-2">24/7</div>
+          <div class="text-gray-600">Customer Support</div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-16">
+        <a href="portal-c/mall/index.html" class="feature-card bg-white rounded-2xl p-6 border border-gray-100 group">
+          <div class="w-14 h-14 bg-emerald-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i class="ri-shopping-bag-line text-2xl text-white"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Mall</h3>
+          <p class="text-gray-600 text-sm">Premium Selection · Quality Guaranteed</p>
+        </a>
+        <a href="portal-c/cart/index.html" class="feature-card bg-white rounded-2xl p-6 border border-gray-100 group">
+          <div class="w-14 h-14 bg-amber-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i class="ri-shopping-cart-line text-2xl text-white"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Cart</h3>
+          <p class="text-gray-600 text-sm">Easy Checkout · Great Deals</p>
+        </a>
+        <a href="portal-c/track/index.html" class="feature-card bg-white rounded-2xl p-6 border border-gray-100 group">
+          <div class="w-14 h-14 bg-blue-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i class="ri-map-pin-line text-2xl text-white"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Tracking</h3>
+          <p class="text-gray-600 text-sm">Real-time Location · Worry-free Delivery</p>
+        </a>
+        <a href="portal-c/service/index.html" class="feature-card bg-white rounded-2xl p-6 border border-gray-100 group">
+          <div class="w-14 h-14 bg-purple-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i class="ri-customer-service-line text-2xl text-white"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Support</h3>
+          <p class="text-gray-600 text-sm">Attentive Service · Easy Returns</p>
+        </a>
+        <a href="portal-c/profile/index.html" class="feature-card bg-white rounded-2xl p-6 border border-gray-100 group">
+          <div class="w-14 h-14 bg-emerald-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i class="ri-user-line text-2xl text-white"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 mb-2">Profile</h3>
+          <p class="text-gray-600 text-sm">Order Management · Member Benefits</p>
+        </a>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center">
+        <a href="apply.html?type=b2c" class="inline-flex items-center gap-3 bg-emerald-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-emerald-700 transition-all shadow-lg hover:shadow-xl">
+          <i class="ri-shopping-bag-line"></i>
+          Start Shopping Now
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div class="col-span-1 md:col-span-2">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-lg flex items-center justify-center">
+              <span class="text-white font-bold text-lg">K</span>
+            </div>
+            <span class="text-xl font-bold text-white">KungfuBuy</span>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed">A professional supply chain service platform connecting businesses and consumers, providing enterprise client services and quality shopping experiences.</p>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-4">Enterprise</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="portal-b/products/index.html" class="hover:text-white transition-colors">Products</a></li>
+            <li><a href="portal-b/warehouse/index.html" class="hover:text-white transition-colors">Warehouse</a></li>
+            <li><a href="portal-b/logistics/index.html" class="hover:text-white transition-colors">Logistics</a></li>
+            <li><a href="apply.html?type=b2b" class="hover:text-white transition-colors">Apply</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-4">Individual</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="portal-c/mall/index.html" class="hover:text-white transition-colors">Mall</a></li>
+            <li><a href="portal-c/cart/index.html" class="hover:text-white transition-colors">Cart</a></li>
+            <li><a href="portal-c/track/index.html" class="hover:text-white transition-colors">Tracking</a></li>
+            <li><a href="portal-c/service/index.html" class="hover:text-white transition-colors">Support</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-8 text-sm text-gray-500 text-center">
+        <p>© 2026 KungfuBuy. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Generate particles
+    function createParticles(containerId, count) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+        container.appendChild(particle);
+      }
+    }
+    
+    createParticles('particles-b', 40);
+    createParticles('particles-c', 40);
+
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.classList.add('active');
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Show all content sections by default
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.section-content').forEach(section => {
+        section.classList.add('active');
+      });
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>

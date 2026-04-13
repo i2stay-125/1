@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply - KungfuBuy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              green: '#059669',
+              yellow: '#F59E0B',
+            }
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Inter', system-ui, sans-serif; }
+    .form-input {
+      transition: all 0.3s ease;
+    }
+    .form-input:focus {
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+      outline: none;
+    }
+    .gradient-text {
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .video-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+    .animate-delay-100 { animation-delay: 100ms; }
+    .animate-delay-200 { animation-delay: 200ms; }
+    .animate-delay-300 { animation-delay: 300ms; }
+    .animate-delay-400 { animation-delay: 400ms; }
+    .bg-blob { animation: blob 7s infinite; }
+    .bg-blob-delay-2 { animation-delay: 2s; }
+    .bg-blob-delay-4 { animation-delay: 4s; }
+    @keyframes blob {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -50px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+    }
+    .btn-primary {
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(5, 150, 105, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- Video Background -->
+  <video class="video-bg" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920">
+    <source src="https://cdn.coverr.co/videos/coverr-typing-on-a-laptop-1584/1080p.mp4" type="video/mp4">
+  </video>
+  
+  <!-- Gradient Overlay -->
+  <div class="fixed inset-0 bg-gradient-to-br from-gray-900/80 via-gray-800/70 to-emerald-900/80 z-0"></div>
+  
+  <!-- Decorative Blobs -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute top-20 left-10 w-72 h-72 bg-emerald-400/20 rounded-full blur-3xl bg-blob"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-brand-yellow/20 rounded-full blur-3xl bg-blob bg-blob-delay-2"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-green/10 rounded-full blur-3xl bg-blob bg-blob-delay-4"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-brand-yellow to-brand-green rounded-xl flex items-center justify-center shadow-lg">
+            <span class="text-white font-bold text-lg">K</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xl font-bold bg-gradient-to-r from-brand-yellow to-brand-green gradient-text leading-tight">
+              KungfuBuy
+            </span>
+            <span class="text-xs text-gray-500">Master Dropshipping</span>
+          </div>
+        </a>
+        <a href="index.html" class="text-gray-600 hover:text-brand-green transition-colors text-sm font-medium">
+          <i class="fas fa-arrow-left mr-2"></i>Back to Home
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="relative z-10 pt-24 pb-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header Section -->
+      <div class="text-center mb-12 animate-fade-in-up">
+        <h1 class="text-3xl sm:text-4xl font-bold text-white mb-4">Contact Us</h1>
+        <p class="text-lg text-gray-200 max-w-2xl mx-auto">
+          Fill out the form below to submit your quote request, and our professional team will contact you immediately with the best customized solutions for your business.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <!-- Form Section -->
+        <div class="glass-card rounded-2xl shadow-2xl p-8 animate-fade-in-up animate-delay-100">
+          <form id="applyForm" class="space-y-6">
+            <!-- Portal Type Selection -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-3">Portal Type <span class="text-red-500">*</span></label>
+              <div class="grid grid-cols-2 gap-4">
+                <label class="cursor-pointer">
+                  <input type="radio" name="portalType" value="b2b" class="peer sr-only" checked>
+                  <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-brand-green peer-checked:bg-emerald-50 transition-all text-center">
+                    <i class="fas fa-building text-2xl text-gray-400 peer-checked:text-brand-green mb-2"></i>
+                    <div class="font-semibold text-gray-700 peer-checked:text-brand-green">B2B Portal</div>
+                    <div class="text-xs text-gray-500">Enterprise</div>
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="portalType" value="b2c" class="peer sr-only">
+                  <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-brand-green peer-checked:bg-emerald-50 transition-all text-center">
+                    <i class="fas fa-shopping-bag text-2xl text-gray-400 peer-checked:text-brand-green mb-2"></i>
+                    <div class="font-semibold text-gray-700 peer-checked:text-brand-green">B2C Portal</div>
+                    <div class="text-xs text-gray-500">Standard</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Name Fields -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">First Name <span class="text-red-500">*</span></label>
+                <input type="text" name="firstName" placeholder="John" required
+                  class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400">
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Last Name <span class="text-red-500">*</span></label>
+                <input type="text" name="lastName" placeholder="Smith" required
+                  class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400">
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Email <span class="text-red-500">*</span></label>
+              <input type="email" name="email" placeholder="your@email.com" required
+                class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400">
+            </div>
+
+            <!-- Phone -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Phone <span class="text-red-500">*</span></label>
+              <div class="flex gap-2">
+                <select name="countryCode" class="form-input px-3 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white">
+                  <option value="+1">+1</option>
+                  <option value="+44">+44</option>
+                  <option value="+86">+86</option>
+                  <option value="+61">+61</option>
+                  <option value="+49">+49</option>
+                  <option value="+33">+33</option>
+                </select>
+                <input type="tel" name="phone" placeholder="123 456 7890" required
+                  class="form-input flex-1 px-4 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400">
+              </div>
+            </div>
+
+            <!-- Daily Order Level -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Daily Order Level</label>
+              <select name="orderLevel" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white">
+                <option value="">Please select</option>
+                <option value="1-10">1 - 10 orders/day</option>
+                <option value="11-50">11 - 50 orders/day</option>
+                <option value="51-100">51 - 100 orders/day</option>
+                <option value="101-500">101 - 500 orders/day</option>
+                <option value="500+">500+ orders/day</option>
+              </select>
+            </div>
+
+            <!-- Product Link -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Product Link</label>
+              <input type="url" name="productLink" placeholder="https://example.com/product"
+                class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400">
+            </div>
+
+            <!-- Message -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Additional Message</label>
+              <textarea name="message" rows="4" placeholder="Tell us more about your business needs..."
+                class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 resize-none"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" 
+              class="btn-primary w-full py-4 bg-brand-green text-white rounded-lg font-bold text-lg hover:bg-emerald-700 shadow-lg">
+              GET A FREE QUOTE
+            </button>
+          </form>
+        </div>
+
+        <!-- Image Section -->
+        <div class="hidden lg:block animate-fade-in-up animate-delay-200">
+          <div class="sticky top-24">
+            <div class="rounded-2xl overflow-hidden shadow-2xl">
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" 
+                alt="Our Team" 
+                class="w-full h-auto object-cover">
+            </div>
+            <div class="glass-card mt-6 rounded-xl p-6 shadow-lg">
+              <h3 class="font-bold text-gray-900 mb-3">Why Choose KungfuBuy?</h3>
+              <ul class="space-y-3 text-sm text-gray-600">
+                <li class="flex items-center gap-3">
+                  <i class="fas fa-check-circle text-brand-green"></i>
+                  <span>24/7 Professional Support</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <i class="fas fa-check-circle text-brand-green"></i>
+                  <span>Fast Order Processing</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <i class="fas fa-check-circle text-brand-green"></i>
+                  <span>Quality Inspection</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <i class="fas fa-check-circle text-brand-green"></i>
+                  <span>Global Shipping</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="relative z-10 bg-gray-900 text-gray-300 border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Company Info -->
+        <div>
+          <a href="index.html" class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 bg-gradient-to-br from-brand-yellow to-brand-green rounded-xl flex items-center justify-center shadow-lg">
+              <span class="text-white font-bold text-lg">K</span>
+            </div>
+            <span class="text-xl font-bold bg-gradient-to-r from-brand-yellow to-brand-green gradient-text">KungfuBuy</span>
+          </a>
+          <p class="text-sm text-gray-400 mb-4">
+            KungfuBuy is a dynamic dropshipping agent dedicated to providing efficient dropshipping services for dropshippers worldwide.
+          </p>
+        </div>
+        
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="index.html" class="hover:text-brand-green transition-colors">Home</a></li>
+            <li><a href="index.html#services" class="hover:text-brand-green transition-colors">About Us</a></li>
+            <li><a href="index.html#advantages" class="hover:text-brand-green transition-colors">Faq</a></li>
+            <li><a href="#" class="hover:text-brand-green transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-brand-green transition-colors">Terms Of Service</a></li>
+          </ul>
+        </div>
+        
+        <!-- Core Services -->
+        <div>
+          <h4 class="text-white font-semibold mb-4">Core Services</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-brand-green transition-colors">Product Sourcing</a></li>
+            <li><a href="#" class="hover:text-brand-green transition-colors">Quality Inspection</a></li>
+            <li><a href="#" class="hover:text-brand-green transition-colors">Warehouse Management</a></li>
+            <li><a href="#" class="hover:text-brand-green transition-colors">International Logistics</a></li>
+          </ul>
+        </div>
+        
+        <!-- Contact Us -->
+        <div>
+          <h4 class="text-white font-semibold mb-4">Contact Us</h4>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-center gap-2">
+              <i class="fas fa-envelope text-brand-green"></i>
+              <span>business@kungfubuy.com</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-phone text-brand-green"></i>
+              <span>+86 130-5451-7917</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fab fa-whatsapp text-brand-green"></i>
+              <span>+86 130-5451-7917</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <i class="fas fa-map-marker-alt text-brand-green mt-1"></i>
+              <span>Blue Intelligence Valley Building 1, High-tech Zone, Yantai, Shandong, China</span>
+            </li>
+          </ul>
+          <!-- Social Icons -->
+          <div class="flex gap-3 mt-4">
+            <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-brand-green transition-colors">
+              <i class="fab fa-facebook-f text-sm"></i>
+            </a>
+            <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-brand-green transition-colors">
+              <i class="fab fa-instagram text-sm"></i>
+            </a>
+            <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-brand-green transition-colors">
+              <i class="fab fa-youtube text-sm"></i>
+            </a>
+            <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-brand-green transition-colors">
+              <i class="fab fa-tiktok text-sm"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500">
+        <p>&copy; 2026 KungfuBuy. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Customer Service Button -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <button class="w-14 h-14 bg-brand-green rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform animate-float">
+      <i class="fas fa-headset text-white text-xl"></i>
+    </button>
+  </div>
+
+  <script>
+    // Get portal type from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const portalType = urlParams.get('type');
+    if (portalType === 'b2b') {
+      document.querySelector('input[value="b2b"]').checked = true;
+    } else if (portalType === 'b2c') {
+      document.querySelector('input[value="b2c"]').checked = true;
+    }
+
+    // Form submission
+    document.getElementById('applyForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Thank you for your submission! Our team will contact you soon.');
+    });
+  </script>
+</body>
+</html>
