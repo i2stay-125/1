@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - KungfuBuy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+    * { font-family: 'Inter', sans-serif; }
+    
+    /* Animated gradient background */
+    .animated-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(-45deg, #059669, #10b981, #0d9488, #14b8a6, #34d399);
+      background-size: 400% 400%;
+      animation: gradientMove 15s ease infinite;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Floating orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+      animation: float 20s ease-in-out infinite;
+    }
+    .orb-1 {
+      width: 600px;
+      height: 600px;
+      background: #10b981;
+      top: -200px;
+      left: -200px;
+      animation-delay: 0s;
+    }
+    .orb-2 {
+      width: 500px;
+      height: 500px;
+      background: #14b8a6;
+      bottom: -150px;
+      right: -150px;
+      animation-delay: -7s;
+    }
+    .orb-3 {
+      width: 400px;
+      height: 400px;
+      background: #059669;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: -14s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+    
+    /* Glass morphism card */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    
+    /* Form styling */
+    .form-input {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      transition: all 0.3s ease;
+    }
+    .form-input:focus {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+      outline: none;
+    }
+    .form-input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    /* Floating labels */
+    .float-label {
+      position: relative;
+    }
+    .float-label input, .float-label textarea, .float-label select {
+      width: 100%;
+      padding: 16px 20px;
+      padding-top: 24px;
+      border-radius: 16px;
+      font-size: 16px;
+    }
+    .float-label label {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.6);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    .float-label textarea ~ label {
+      top: 24px;
+    }
+    .float-label input:focus ~ label,
+    .float-label input:not(:placeholder-shown) ~ label,
+    .float-label textarea:focus ~ label,
+    .float-label textarea:not(:placeholder-shown) ~ label,
+    .float-label select:focus ~ label,
+    .float-label select:valid ~ label {
+      top: 12px;
+      font-size: 12px;
+      color: #10b981;
+    }
+    
+    /* Submit button */
+    .submit-btn {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .submit-btn:hover::before {
+      opacity: 1;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
+    }
+    .submit-btn span {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Success animation */
+    .success-checkmark {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: block;
+      stroke-width: 2;
+      stroke: #fff;
+      stroke-miterlimit: 10;
+      box-shadow: inset 0px 0px 0px #10b981;
+      animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+    }
+    .success-checkmark__circle {
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      stroke-width: 2;
+      stroke-miterlimit: 10;
+      stroke: #fff;
+      fill: #10b981;
+      animation: stroke .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    }
+    .success-checkmark__check {
+      transform-origin: 50% 50%;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: stroke .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards;
+    }
+    @keyframes stroke {
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes scale {
+      0%, 100% { transform: none; }
+      50% { transform: scale3d(1.1, 1.1, 1); }
+    }
+    @keyframes fill {
+      100% { box-shadow: inset 0px 0px 0px 30px #10b981; }
+    }
+    
+    /* Card hover effects */
+    .info-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.4s ease;
+    }
+    .info-card:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+    .info-card .icon-wrapper {
+      background: linear-gradient(135deg, #10b981, #059669);
+      transition: all 0.4s ease;
+    }
+    .info-card:hover .icon-wrapper {
+      transform: scale(1.1) rotate(5deg);
+    }
+    
+    /* Typing cursor effect */
+    .typewriter {
+      overflow: hidden;
+      border-right: 3px solid #10b981;
+      white-space: nowrap;
+      animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: #10b981 }
+    }
+    
+    /* Floating animation */
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+    @keyframes floating {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <!-- Animated Background -->
+  <div class="animated-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass-card">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="index.html" class="flex items-center gap-2 group">
+          <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+            <span class="text-white font-bold text-lg">K</span>
+          </div>
+          <span class="text-xl font-bold text-white">KungfuBuy</span>
+        </a>
+        <a href="index.html" class="flex items-center gap-2 text-white/80 hover:text-white transition-colors">
+          <i class="ri-arrow-left-line"></i>
+          <span>Back to Home</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Main Content -->
+  <main class="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/20 backdrop-blur-md rounded-full text-sm font-medium mb-6 text-white">
+          <i class="ri-hand-heart-line"></i>
+          <span>Let's Get Started</span>
+        </div>
+        <h1 class="text-5xl md:text-6xl font-bold text-white mb-6">
+          <span class="typewriter">Contact Us Today</span>
+        </h1>
+        <p class="text-xl text-white/80 max-w-2xl mx-auto">
+          Ready to transform your business? Fill out the form below and our team will get back to you within 24 hours.
+        </p>
+      </div>
+      
+      <div class="grid lg:grid-cols-5 gap-8">
+        <!-- Form Section -->
+        <div class="lg:col-span-3">
+          <div class="glass-card rounded-3xl p-8 md:p-10">
+            <form id="contactForm" class="space-y-6">
+              <!-- Name & Email Row -->
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="float-label">
+                  <input type="text" id="name" class="form-input" placeholder=" " required>
+                  <label for="name"><i class="ri-user-line mr-2"></i>Full Name</label>
+                </div>
+                <div class="float-label">
+                  <input type="email" id="email" class="form-input" placeholder=" " required>
+                  <label for="email"><i class="ri-mail-line mr-2"></i>Email Address</label>
+                </div>
+              </div>
+              
+              <!-- Phone & Company Row -->
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="float-label">
+                  <input type="tel" id="phone" class="form-input" placeholder=" ">
+                  <label for="phone"><i class="ri-phone-line mr-2"></i>Phone Number</label>
+                </div>
+                <div class="float-label">
+                  <input type="text" id="company" class="form-input" placeholder=" ">
+                  <label for="company"><i class="ri-building-line mr-2"></i>Company Name</label>
+                </div>
+              </div>
+              
+              <!-- Service Type -->
+              <div class="float-label">
+                <select id="service" class="form-input" required>
+                  <option value="" disabled selected></option>
+                  <option value="b2b">Enterprise B2B Service</option>
+                  <option value="b2c">Individual Shopping</option>
+                  <option value="logistics">Logistics Service</option>
+                  <option value="customization">Customization Service</option>
+                  <option value="partnership">Partnership Inquiry</option>
+                  <option value="other">Other</option>
+                </select>
+                <label for="service"><i class="ri-service-line mr-2"></i>Service Type</label>
+              </div>
+              
+              <!-- Message -->
+              <div class="float-label">
+                <textarea id="message" rows="5" class="form-input resize-none" placeholder=" " required></textarea>
+                <label for="message"><i class="ri-message-3-line mr-2"></i>Your Message</label>
+              </div>
+              
+              <!-- Submit Button -->
+              <button type="submit" class="submit-btn w-full py-5 rounded-2xl text-white font-bold text-lg flex items-center justify-center gap-3">
+                <span><i class="ri-send-plane-fill mr-2"></i>Send Message</span>
+              </button>
+            </form>
+            
+            <!-- Success Message (Hidden by default) -->
+            <div id="successMessage" class="hidden text-center py-10">
+              <svg class="success-checkmark mx-auto mb-6" viewBox="0 0 80 80">
+                <circle class="success-checkmark__circle" cx="40" cy="40" r="36"/>
+                <path class="success-checkmark__check" fill="none" d="M26 40l10 10 18-18"/>
+              </svg>
+              <h3 class="text-2xl font-bold text-white mb-2">Message Sent Successfully!</h3>
+              <p class="text-white/80">We'll get back to you within 24 hours.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Info Cards Section -->
+        <div class="lg:col-span-2 space-y-6">
+          <!-- Quick Contact -->
+          <div class="info-card rounded-2xl p-6">
+            <div class="flex items-start gap-4">
+              <div class="icon-wrapper w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i class="ri-phone-line text-2xl text-white"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-white mb-1">Call Us</h3>
+                <p class="text-white/70 mb-2">Mon-Fri, 9:00-18:00</p>
+                <a href="tel:+864001234567" class="text-teal-300 hover:text-teal-200 transition-colors font-medium">400-123-4567</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Email -->
+          <div class="info-card rounded-2xl p-6">
+            <div class="flex items-start gap-4">
+              <div class="icon-wrapper w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">
+                <i class="ri-mail-line text-2xl text-white"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-white mb-1">Email Us</h3>
+                <p class="text-white/70 mb-2">We reply within 24h</p>
+                <a href="mailto:support@kungfubuy.com" class="text-teal-300 hover:text-teal-200 transition-colors font-medium">support@kungfubuy.com</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- WhatsApp -->
+          <div class="info-card rounded-2xl p-6">
+            <div class="flex items-start gap-4">
+              <div class="icon-wrapper w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #10b981, #059669);">
+                <i class="ri-whatsapp-line text-2xl text-white"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-white mb-1">WhatsApp</h3>
+                <p class="text-white/70 mb-2">Instant Response</p>
+                <a href="#" class="text-teal-300 hover:text-teal-200 transition-colors font-medium">+86 400 123 4567</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Address -->
+          <div class="info-card rounded-2xl p-6">
+            <div class="flex items-start gap-4">
+              <div class="icon-wrapper w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #0d9488, #115e59);">
+                <i class="ri-map-pin-line text-2xl text-white"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-white mb-1">Office</h3>
+                <p class="text-white/70">Nanshan Tech Park<br>Shenzhen, China</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Social Media -->
+          <div class="glass-card rounded-2xl p-6">
+            <h3 class="text-lg font-bold text-white mb-4 text-center">Follow Us</h3>
+            <div class="flex justify-center gap-4">
+              <a href="#" class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110">
+                <i class="ri-wechat-fill text-xl text-white"></i>
+              </a>
+              <a href="#" class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110">
+                <i class="ri-weibo-fill text-xl text-white"></i>
+              </a>
+              <a href="#" class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110">
+                <i class="ri-linkedin-box-fill text-xl text-white"></i>
+              </a>
+              <a href="#" class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center hover:bg-white/20 transition-all hover:scale-110">
+                <i class="ri-youtube-fill text-xl text-white"></i>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Floating Badge -->
+          <div class="floating">
+            <div class="glass-card rounded-2xl p-6 text-center">
+              <div class="w-16 h-16 bg-gradient-to-br from-teal-400 to-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="ri-customer-service-2-line text-3xl text-white"></i>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-2">24/7 Support</h3>
+              <p class="text-white/70 text-sm">Our team is always here to help you</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="py-8 px-4">
+    <div class="max-w-7xl mx-auto text-center">
+      <p class="text-white/60 text-sm">
+        © 2026 KungfuBuy. All rights reserved. | 
+        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a> | 
+        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+      </p>
+    </div>
+  </footer>
+  
+  <script>
+    // Form submission
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form data
+      const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        company: document.getElementById('company').value,
+        service: document.getElementById('service').value,
+        message: document.getElementById('message').value
+      };
+      
+      // Log form data (in production, send to server)
+      console.log('Form submitted:', formData);
+      
+      // Show success message
+      document.getElementById('contactForm').classList.add('hidden');
+      document.getElementById('successMessage').classList.remove('hidden');
+      
+      // Reset form after 5 seconds
+      setTimeout(() => {
+        document.getElementById('contactForm').classList.remove('hidden');
+        document.getElementById('successMessage').classList.add('hidden');
+        document.getElementById('contactForm').reset();
+      }, 5000);
+    });
+    
+    // Add smooth reveal animation on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+    
+    document.querySelectorAll('.info-card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(card);
+    });
+  </script>
+</body>
+</html>

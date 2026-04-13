@@ -198,6 +198,56 @@
       50% { opacity: 1; }
       100% { top: 100%; opacity: 0; }
     }
+    
+    /* 动态背景图片轮播 */
+    .dynamic-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      animation: bgSlide 20s ease-in-out infinite;
+    }
+    @keyframes bgSlide {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      25% { opacity: 0.5; transform: scale(1.05); }
+      50% { opacity: 0.4; transform: scale(1); }
+      75% { opacity: 0.5; transform: scale(1.05); }
+    }
+    
+    /* 光效流动动画 */
+    .light-stream {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+      animation: stream 8s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes stream {
+      0% { transform: translateX(-50%) translateY(-50%); }
+      100% { transform: translateX(50%) translateY(50%); }
+    }
+    
+    /* 申请按钮发光效果 */
+    .glow-btn {
+      position: relative;
+      overflow: hidden;
+    }
+    .glow-btn::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(45deg, #14b8a6, #10b981, #059669, #0d9488);
+      border-radius: inherit;
+      z-index: -1;
+      animation: glowRotate 3s linear infinite;
+      filter: blur(8px);
+      opacity: 0.6;
+    }
+    @keyframes glowRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body class="bg-gray-50">
@@ -224,14 +274,16 @@
     </div>
   </nav>
 
-  <!-- Hero Section - Split Screen with Dynamic Background -->
+    <!-- Hero Section - Split Screen with Dynamic Background -->
   <section id="home" class="min-h-screen flex pt-16">
     <!-- Enterprise Side -->
-    <div class="split-section flex-1 relative cursor-pointer" onclick="window.location.href='apply.html?type=b2b'">
-      <!-- Video Background -->
-      <video class="video-bg" autoplay muted loop playsinline>
-        <source src="images/banner.mp4" type="video/mp4">
-      </video>
+    <div class="split-section flex-1 relative cursor-pointer" onclick="window.location.href='apply.html'">
+      <!-- Dynamic Gradient Background -->
+      <div class="absolute inset-0">
+        <div class="gradient-bg"></div>
+        <div class="dynamic-bg" style="background-image: linear-gradient(135deg, rgba(13,148,136,0.8) 0%, rgba(15,118,110,0.6) 50%, rgba(5,150,105,0.8) 100%);"></div>
+        <div class="light-stream"></div>
+      </div>
       <div class="video-overlay"></div>
       
       <!-- Particles -->
@@ -320,7 +372,7 @@
               <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
             </a>
             
-            <a href="apply.html?type=b2b" class="hero-feature-card flex items-center gap-5 p-5 rounded-2xl text-left group">
+            <a href="apply.html" class="hero-feature-card flex items-center gap-5 p-5 rounded-2xl text-left group">
               <div class="flex items-center gap-3 flex-shrink-0">
                 <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
                   <span class="text-white font-bold text-lg">5</span>
@@ -334,6 +386,15 @@
               <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
             </a>
           </div>
+          
+          <!-- Apply Button -->
+          <div class="mt-8 animate-slide-up" style="animation-delay: 0.4s">
+            <a href="apply.html" class="inline-flex items-center gap-3 px-8 py-4 bg-white text-teal-600 rounded-full font-bold text-lg hover:bg-white/95 hover:scale-105 transition-all shadow-2xl shadow-teal-500/30">
+              <i class="ri-send-plane-fill"></i>
+              Apply Now
+              <i class="ri-arrow-right-line"></i>
+            </a>
+          </div>
         </div>
         
         <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
@@ -343,11 +404,13 @@
     </div>
 
     <!-- Individual Side -->
-    <div class="split-section flex-1 relative cursor-pointer" onclick="window.location.href='apply.html?type=b2c'">
-      <!-- Video Background -->
-      <video class="video-bg" autoplay muted loop playsinline>
-        <source src="images/banner2.mp4" type="video/mp4">
-      </video>
+    <div class="split-section flex-1 relative cursor-pointer" onclick="window.location.href='apply.html'">
+      <!-- Dynamic Gradient Background -->
+      <div class="absolute inset-0">
+        <div class="gradient-bg" style="animation-delay: -7s; background: linear-gradient(-45deg, #10b981, #059669, #0d9488, #14b8a6); background-size: 400% 400%; animation: gradientShift 15s ease infinite;"></div>
+        <div class="dynamic-bg" style="background: linear-gradient(135deg, rgba(16,185,129,0.8) 0%, rgba(5,150,105,0.6) 50%, rgba(20,184,166,0.8) 100%); animation-delay: -10s;"></div>
+        <div class="light-stream" style="animation-delay: -4s;"></div>
+      </div>
       <div class="video-overlay-c"></div>
       
       <!-- Particles -->
@@ -448,6 +511,15 @@
                 <p class="text-sm text-white/80">Order Management · Member Benefits</p>
               </div>
               <i class="ri-arrow-right-s-line text-2xl opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+            </a>
+          </div>
+          
+          <!-- Apply Button -->
+          <div class="mt-8 animate-slide-up" style="animation-delay: 0.5s">
+            <a href="apply.html" class="inline-flex items-center gap-3 px-8 py-4 bg-white text-emerald-600 rounded-full font-bold text-lg hover:bg-white/95 hover:scale-105 transition-all shadow-2xl shadow-emerald-500/30">
+              <i class="ri-shopping-bag-fill"></i>
+              Start Shopping
+              <i class="ri-arrow-right-line"></i>
             </a>
           </div>
         </div>

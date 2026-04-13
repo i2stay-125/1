@@ -28,3 +28,4 @@ npm-debug.log*
 # Vite
 *.local
 .vite/
+.vercel
